@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-#
 # Copyright 2007 Google Inc.
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -82,6 +80,39 @@ class MainRouterHandler(webapp2.RequestHandler):
         template = template_env.get_template('templates/contact/contact.html')
         context = {}
         self.response.write(template.render(context))
+
+    def RouteDomain(self):
+        template = template_env.get_template('templates/domains/domains.html')
+        context = {}
+        self.response.write(template.render(context))
+
+    def RouteAccount(self):
+        template = template_env.get_template('templates/account/account.html')
+        context = {}
+        self.response.write(template.render(context))
+
+    def RoutePricing(self):
+        template = template_env.get_template('templates/pricing/pricing.html')
+        context = {}
+        self.response.write(template.render(context))
+
+    def RouteFaq(self):
+        template = template_env.get_template('templates/faq/faq.html')
+        context = {}
+        self.response.write(template.render(context))
+
+    def Route404(self):
+        template = template_env.get_template('templates/404.html')
+        context = {}
+        self.response.write(template.render(context))
+
+    def Route500(self):
+        template = template_env.get_template('templates/500.html')
+        context = {}
+        self.response.write(template.render(context))
+
+
+
 
     def RouteLoginPost(self,vstrChoice):
         from accounts import Accounts,Organization
@@ -170,7 +201,9 @@ class MainRouterHandler(webapp2.RequestHandler):
         URL = URL.lower()
         strURLlist = URL.split("/")
 
-        if len(strURLlist) == 4:
+        logging.info(str(len(strURLlist)))
+
+        if len(strURLlist) >= 4:
 
             if ("index" in strURLlist) or ("index.html" in strURLlist):
                 self.RouteHome()
@@ -184,7 +217,6 @@ class MainRouterHandler(webapp2.RequestHandler):
                 self.RouteFAQ()
 
             elif ("pricing" in strURLlist) or ("pricing.html" in strURLlist):
-
                 self.RoutePricing()
 
             elif "sitemap.xml" in strURLlist:
@@ -198,11 +230,21 @@ class MainRouterHandler(webapp2.RequestHandler):
             elif ("contact" in strURLlist) or ("contact.html" in strURLlist):
                 self.RouteContact()
 
-            
+            elif ("domains" in strURLlist) or ("domains.html" in strURLlist):
+                self.RouteDomain()
 
+            elif ("account" in strURLlist) or("account.html" in strURLlist):
+                self.RouteAccount()
+
+            elif ("pricing" in strURLlist) or("pricing.html" in strURLlist):
+                self.RoutePricing()
+
+            elif ("faq" in strURLlist) or ("faq.html" in strURLlist):
+                self.RouteFAQ()
+            elif ("500" in strURLlist):
+                self.Route500()
             else:
                 self.RouteHome()
-
         else:
             self.RouteHome()
 
